@@ -7,3 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'MainController::index');
 $routes->post('save', 'MainController::upload');
+$routes->get('/searchSong', 'MainController::searchSong');
+$routes->post('saveSong', 'MainController::upload');
+$routes->post('createPlaylist', 'MainController::createPlaylist');

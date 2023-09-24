@@ -22,7 +22,7 @@ class MainController extends BaseController
     public function index(){
         $data = [
             'playlist' => $this->Playlist->findAll(),
-          'songs' => $this->Songs->findAll(),
+            'songs' => $this->Songs->findAll(),
             
         ];
         return view('Music\new', $data);
@@ -56,11 +56,47 @@ class MainController extends BaseController
         }else{
             echo $file->getErrorString(). ' ' .$file->getError();
         }
-    }else{
-        $data['validation'] = $this->validator;
+        }else{
+            $data['validation'] = $this->validator;
+        }
+
+        return redirect()->to('/');
+        }
     }
 
-    return redirect()->to('/');
+    public function searchSong(){
+
+        $searchLike = $this -> request -> getVar('search');
+
+        if(!empty($searchLike)){
+
+            $data = [
+              'songs' => $this->Songs->searchSong($searchLike),
+              'playlist' => $this->Playlist->findAll()
+            ];
+            return view('Music\new', $data);
+        }else{
+            return redirect()->to('/');
+        }
     }
+
+    public function createPlaylist(){
+        $data = [
+            'playlist' => $this->request->getVar('playlistName')
+        ];
+        $this->Playlist->save($data);
+
+        return redirect()->to('/');
+    }
+
+    public function addToPlaylist(){
+        $data =[
+            'playlist_ID' => $this->request->getVar('playlist'),
+            'songID' => $this->request->getVar('musicID')
+        ];
+        
+        $this->playlistTracks->save($data);
+
+        return redirect()->to('/');
     }
 }   
