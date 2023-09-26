@@ -82,21 +82,50 @@ class MainController extends BaseController
 
     public function createPlaylist(){
         $data = [
-            'playlist' => $this->request->getVar('playlistName')
+            'playlistName' => $this->request->getVar('playlistName')
         ];
-        $this->Playlist->save($data);
-
+         $this->Playlist->save($data);
+        
         return redirect()->to('/');
     }
 
     public function addToPlaylist(){
         $data =[
-            'playlist_ID' => $this->request->getVar('playlist'),
-            'songID' => $this->request->getVar('musicID')
+            'playlist_ID' => $this->request->getVar('playlistID'),
+            'songID' => $this->request->getVar('SongID')
         ];
         
-        $this->playlistTracks->save($data);
+        // $this->Track->save($data);
+        var_dump($data);
+        // return redirect()->to('/');
+    }
 
-        return redirect()->to('/');
+    public function playlist($id = null){
+        $db = \Config\Database::connect();
+        $builder = $db->table('songs');
+
+        $builder->select(['songs.ID', 'songs.songName','songs.songFile','playlist.playlistName','playlist.play_ID']);
+        $builder->join('track', 'songs.ID = track.ID');
+        $builder->join('playlist', 'track.ID = playlist.play_ID');
+
+        if($id !== null){
+            $builder->where('playlist.play_ID', $id);
+        }
+
+        $query = $builder->get();
+
+        $data = [
+            'playlists' => $this->playlist->findall(),
+            'songs' => $this->song->findall()
+        ];
+
+        if($query) {
+            $data['songs'] = $query->getResultArray();
+        }
+        else{
+            echo"Query Failed";
+        }
+
+        return view('Music\new', $data);
     }
 }   

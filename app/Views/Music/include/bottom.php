@@ -35,7 +35,6 @@
                 const track = playlistItems[trackIndex];
                 const trackSrc = track.getAttribute('data-src');
                 audio.src = trackSrc;
-                audio.play();
                 currentTrack = trackIndex;
             }
         }
@@ -61,4 +60,10 @@
         });
 
         playTrack(currentTrack);
+    </script>
+
+    <script>
+        fucntion setMusicID(songID){
+            document.getElementById('shifu').value = songID;
+        }
     </script>

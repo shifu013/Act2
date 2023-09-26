@@ -1,21 +1,25 @@
 <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
           <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Select from playlist</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
+       <div class="modal-header">
+          <h4 class="modal-title">Select from playlist</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+       </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-          <form action="/" method="post">
+          <form action="/addToPlaylist" method="post">
             <!-- <p id="modalData"></p> -->
-            <input type="hidden" id="musicID" name="musicID">
-            <select  name="playlist" class="form-control" >
+            <input type="text" id="musicID" name="SongID">
+            <select  name="playlistID" class="form-control" >
+              <?php foreach ($playlist as $playlists) :?>
 
-              <option value="playlist">playlist</option>
+              <option value="<?=$playlists['play_ID']?>">
+                  <?=$playlists['playlistName']?>
+              </option>
+            <?php endforeach;  ?>
 
             </select>
             <input type="submit" name="add">
@@ -25,8 +29,7 @@
           <!-- Modal footer -->
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-          </div>
-
         </div>
-      </div>
     </div>
+  </div>
+</div>
